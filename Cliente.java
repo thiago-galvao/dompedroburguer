@@ -11,6 +11,14 @@ public class Cliente {
         this.complemento = complemento;
     }
 
+    public String toString(){
+        String str;
+        str = "Nome: " + nome;
+        str += "\nTelefone: " + telefone;
+        str += "\nEndereço: " + enderecoEntrega;
+        str += "\nComplemento: " + complemento;
+        return str;
+    }
     public String getNome(){
         return nome;
     }

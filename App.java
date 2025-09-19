@@ -4,9 +4,9 @@ public class App{
         String telefone = "213142";
         String enderecoEntrega = "123131";
         String complemento = "1321321";
+
         Cliente cliente1 = new Cliente(nome, telefone, enderecoEntrega, complemento);
 
-        System.out.println(cliente1.getNome());
-        System.out.println(cliente1.getTelefone());
+        System.out.println(cliente1.toString());
     }
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio da Hamburgueria</title>
+    <link rel="stylesheet" href="/home/thiago_galvao/Downloads/DomPedroBurguer/dompedroburguer/Site/css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Hamburgueria Fantástica</h1>
+        <p>Escolha seu lanche e faça seu pedido!</p>
+    </header>
+
+    <main>
+        <h2>Cardápio</h2>
+        <div id="menu-container">
+            </div>
+
+        <h2>Seu Pedido</h2>
+        <div id="carrinho-container">
+            <ul id="carrinho-itens">
+                </ul>
+            <p>Total: <span id="carrinho-total">R$ 0,00</span></p>
+            <button id="btn-checkout" disabled>Finalizar Pedido</button>
+        </div>
+
+        <div id="checkout-container" class="hidden">
+            <h2>Finalizar Pedido</h2>
+            <div class="form-group">
+                <label for="nome">Seu Nome:</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo">
+            </div>
+            <div class="form-group">
+                <label>Opção de Entrega:</label>
+                <select id="opcao-entrega">
+                    <option value="retirada">Retirada no Balcão</option>
+                    <option value="entrega">Entrega (Delivery)</option>
+                </select>
+            </div>
+            <div class="form-group" id="endereco-group" class="hidden">
+                <label for="endereco">Seu Endereço:</label>
+                <input type="text" id="endereco" placeholder="Digite sua rua, número e bairro">
+            </div>
+            <button id="btn-confirmar-pedido">Confirmar Pedido e Pagar</button>
+        </div>
+    </main>
+
+    <script src="/home/thiago_galvao/Downloads/DomPedroBurguer/dompedroburguer/Site/js/script.js"></script>
+</body>
+</html>

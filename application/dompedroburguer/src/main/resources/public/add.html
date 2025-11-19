@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>Início</title>
+</head>
+<body>
+    <div class="container">
+        <h2>➕ Adicionar Novo Item ao Cardápio</h2>
+        
+        <form action="/api/produtos/adicionar" method="POST">
+            
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="imagem">URL da Imagem:</label>
+            <input type="text" id="imagem" name="imagem" required>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+            <label for="valor">Valor (R$):</label>
+            <input type="number" id="valor" name="valor" step="0.01" min="0" required>
+            
+            <button type="submit">Guardar Produto</button>
+        </form>
+    </div>
+    <a href="/index">Voltar</a>
+</body>
+</html>

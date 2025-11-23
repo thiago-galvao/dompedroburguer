@@ -8,7 +8,7 @@ import com.dompedroburguer.utils.Env;
 
 public class FabricaConexoes {
 
-    private static int MAX_CONNECTIONS = 5;
+    private static final int MAX_CONNECTIONS = 5;
     private final String URL_DB;
     private final String DB_NAME;
     private final String USER;
@@ -21,7 +21,6 @@ public class FabricaConexoes {
 
     private FabricaConexoes() {
         conexoes = new Connection[MAX_CONNECTIONS];
-        // carregar dados de conexão do .env
         URL_DB = Env.get("DB_URL");
         DB_NAME = Env.get("DB_NAME");
         CON_STRING = URL_DB+"/"+DB_NAME;

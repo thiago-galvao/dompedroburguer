@@ -7,21 +7,19 @@ import java.util.List;
 
 import com.dompedroburguer.model.FabricaConexoes;
 import com.dompedroburguer.model.Produto;
+import com.github.hugoperlin.results.Resultado;
 
 public class JDBCProdutoDAO implements ProdutoDAO{
 
-    public JDBCProdutoDAO(FabricaConexoes instance) {
-    }
-
     private FabricaConexoes fabrica;
 
-    public void JDBCContatoDAO(FabricaConexoes fabrica){
+    public JDBCProdutoDAO(FabricaConexoes fabrica){
         this.fabrica = fabrica;
     }
 
     @Override
-    public boolean salvar(Produto produto){
-        Connection con = null;
+    public Resultado<Produto> salvar(Produto produto){
+        Connection con;
 		try {
 			con = fabrica.getConnection();
 
@@ -33,15 +31,14 @@ public class JDBCProdutoDAO implements ProdutoDAO{
 			pstm.setString(3, produto.getDescricao());
             pstm.setDouble(4, produto.getValor());
 
-			int rows = pstm.executeUpdate();
+            int rows = pstm.executeUpdate();
 			if (rows == 1){
-				return true;
+				return Resultado.sucesso("Produto cadastrado!", produto);
 			} else {
-				return false;
+				return Resultado.erro("Problema ao cadastrar!");
 			}
-
 		} catch (SQLException e){
-            e.printStackTrace(); 
+            e.printStackTrace();
             throw new RuntimeException("Erro ao salvar o produto no banco de dados.", e);
         }
     }

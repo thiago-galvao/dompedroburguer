@@ -14,7 +14,7 @@ public class JavalinUtils {
             config.requestLogger.http((ctx, ms) -> {
                 System.out.println(ctx.method() +" "+ ctx.fullUrl());
             });
-            config.staticFiles.add("public",Location.CLASSPATH);
+            config.staticFiles.add("/public",Location.CLASSPATH);
         }).start(port);
         return app;
     }

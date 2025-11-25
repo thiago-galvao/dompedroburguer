@@ -17,7 +17,7 @@ public class ProdutoRepository {
         return dao.salvar(produto);
     }
 
-    public List<Produto> mostrar(){
+    public Resultado<List<Produto>> mostrar(){
         return dao.mostrar();
     }
 }

@@ -1,7 +1,11 @@
 package com.dompedroburguer.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.dompedroburguer.model.Produto;
 import com.dompedroburguer.model.repositories.ProdutoRepository;
+import com.github.hugoperlin.results.Resultado;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -26,8 +30,15 @@ public class ProdutoController {
         
         Produto produto = new Produto(nome, imagem, descricao, valor);
 
-        repositorio.salvar(produto);
+        Resultado<Produto> resultado = repositorio.salvar(produto);
+        Map<String, Object> dados = new HashMap<>();
 
-        ctx.render("add.html");
+        if (resultado.foiSucesso()){
+            dados.put("mensagem", resultado.getMsg());
+        } else {
+            dados.put("erro", resultado.getMsg());
+        }
+
+        ctx.render("add.html", dados);
     };
 }

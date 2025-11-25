@@ -1,5 +1,7 @@
 package com.dompedroburguer;
 
+import com.dompedroburguer.controllers.IndexController;
+import com.dompedroburguer.controllers.ListaProdutoController;
 import com.dompedroburguer.controllers.ProdutoController;
 import com.dompedroburguer.model.FabricaConexoes;
 import com.dompedroburguer.model.dao.JDBCProdutoDAO;
@@ -15,7 +17,13 @@ public class App {
         ProdutoRepository repositorioProduto = new ProdutoRepository(produtoDAO);
         ProdutoController produtoController = new ProdutoController(repositorioProduto);
 
-        app.get("/", produtoController.get);
-        app.post("/", produtoController.post);
+        IndexController indexController = new IndexController();
+
+        ListaProdutoController listaProdutoController = new ListaProdutoController(repositorioProduto);
+
+        app.get("/index", indexController.get);
+        app.get("/add", produtoController.get);
+        app.post("/add", produtoController.post);
+        app.get("/gerenciar-produtos", listaProdutoController.get);
     }
 }

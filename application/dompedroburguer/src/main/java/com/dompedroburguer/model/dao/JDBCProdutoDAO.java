@@ -2,7 +2,10 @@ package com.dompedroburguer.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.dompedroburguer.model.FabricaConexoes;
@@ -19,7 +22,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
 
     @Override
     public Resultado<Produto> salvar(Produto produto){
-        Connection con;
+        Connection con = null;
 		try {
 			con = fabrica.getConnection();
 
@@ -44,7 +47,30 @@ public class JDBCProdutoDAO implements ProdutoDAO{
     }
 
     @Override
-    public List<Produto> mostrar(){
-        return null;
+    public Resultado<List<Produto>> mostrar(){
+        List<Produto> lista = new ArrayList<>();
+        Connection con = null;
+        lista.clear();
+
+        try {
+            con = fabrica.getInstance().getConnection();
+            String sql = "SELECT * FROM pi_cardapio";
+            PreparedStatement pstm = con.prepareCall(sql);
+            ResultSet result = pstm.executeQuery();
+
+            while(result.next()){
+                int id = result.getInt("id");
+                String nome = result.getString("nome");
+                String imagem = result.getString("imagem");
+                String descricao = result.getString("descricao");
+                Double valor = result.getDouble("valor");
+
+                Produto produto = new Produto(nome, imagem, descricao, valor);
+                lista.add(produto);
+            }
+            return Resultado.sucesso("Lista", Collections.unmodifiableList(lista));
+        } catch(SQLException e){
+            return Resultado.erro(e.getMessage());
+        }
     }
 }

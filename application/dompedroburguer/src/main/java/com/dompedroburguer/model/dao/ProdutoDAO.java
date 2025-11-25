@@ -7,5 +7,5 @@ import com.github.hugoperlin.results.Resultado;
 
 public interface ProdutoDAO {
     public Resultado<Produto> salvar(Produto produto);
-    public List<Produto> mostrar();
+    public Resultado<List<Produto>> mostrar();
 }

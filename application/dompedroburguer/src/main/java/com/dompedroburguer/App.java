@@ -22,8 +22,9 @@ public class App {
         ListaProdutoController listaProdutoController = new ListaProdutoController(repositorioProduto);
 
         app.get("/index", indexController.get);
-        app.get("/add", produtoController.get);
-        app.post("/add", produtoController.post);
-        app.get("/gerenciar-produtos", listaProdutoController.get);
+        app.get("/pages/add", produtoController.get);
+        app.post("/pages/add", produtoController.post);
+        app.get("/pages/gerenciar-produtos", listaProdutoController.get);
+        app.get("/pages/cardapio", listaProdutoController.get2);
     }
 }

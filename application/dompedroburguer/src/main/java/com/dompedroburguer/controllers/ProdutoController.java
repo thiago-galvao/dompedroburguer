@@ -19,7 +19,7 @@ public class ProdutoController {
     }
 
     public Handler get = (Context ctx)->{
-        ctx.render("add.html");
+        ctx.render("/pages/add.html");
     };
 
     public Handler post = (Context ctx)->{
@@ -39,6 +39,6 @@ public class ProdutoController {
             dados.put("erro", resultado.getMsg());
         }
 
-        ctx.render("add.html", dados);
+        ctx.render("/pages/add.html", dados);
     };
 }

@@ -22,18 +22,14 @@ public class JDBCProdutoDAO implements ProdutoDAO{
 
     @Override
     public Resultado<Produto> salvar(Produto produto){
-        Connection con = null;
-		try {
-			con = fabrica.getConnection();
-
-			String sql = "INSERT INTO pi_cardapio(nome, imagem, descricao, valor) VALUES (?,?,?,?)";
-
-			PreparedStatement pstm = con.prepareStatement(sql);
+        
+		String sql = "INSERT INTO pi_cardapio(nome, imagem, descricao, valor) VALUES (?,?,?,?)";
+		try (Connection con = fabrica.getConnection();
+            PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setString(1, produto.getNome());
 			pstm.setString(2, produto.getImagem());
 			pstm.setString(3, produto.getDescricao());
             pstm.setDouble(4, produto.getValor());
-
             int rows = pstm.executeUpdate();
 			if (rows == 1){
 				return Resultado.sucesso("Produto cadastrado!", produto);
@@ -43,21 +39,19 @@ public class JDBCProdutoDAO implements ProdutoDAO{
 		} catch (SQLException e){
             e.printStackTrace();
             throw new RuntimeException("Erro ao salvar o produto no banco de dados.", e);
-        }
+        } 
     }
 
     @Override
     public Resultado<List<Produto>> mostrar(){
         List<Produto> lista = new ArrayList<>();
-        Connection con = null;
         lista.clear();
 
-        try {
-            con = fabrica.getInstance().getConnection();
-            String sql = "SELECT * FROM pi_cardapio";
-            PreparedStatement pstm = con.prepareCall(sql);
-            ResultSet result = pstm.executeQuery();
+        String sql = "SELECT * FROM pi_cardapio";
+        try (Connection con = fabrica.getInstance().getConnection();
+            PreparedStatement pstm = con.prepareCall(sql)){
 
+            ResultSet result = pstm.executeQuery();
             while(result.next()){
                 int id = result.getInt("id");
                 String nome = result.getString("nome");

@@ -17,6 +17,7 @@ public class ListaProdutoController {
         this.repositorio = repositorio;
     }
 
+    // Chama a página de listagem de gerenciamento de produtos.
     public Handler get = (Context ctx)->{
         Resultado<List<Produto>> resultado = repositorio.mostrar();
         
@@ -29,6 +30,22 @@ public class ListaProdutoController {
             dados.put("erro", resultado.getMsg());
         }
 
-        ctx.render("gerenciar-produtos.html", dados);
+        ctx.render("/pages/gerenciar-produtos.html", dados);
+    };
+
+    // Chama a página de listagem de cardápio.
+    public Handler get2 = (Context ctx)->{
+        Resultado<List<Produto>> resultado = repositorio.mostrar();
+        
+        Map<String, Object> dados = new HashMap<>();
+        
+        if (resultado.foiSucesso()){
+            dados.put("produtos", resultado.comoSucesso().getObj());
+            dados.put("totalProdutos", resultado.comoSucesso().getObj().size());
+        } else {
+            dados.put("erro", resultado.getMsg());
+        }
+
+        ctx.render("/pages/cardapio.html", dados);
     };
 }

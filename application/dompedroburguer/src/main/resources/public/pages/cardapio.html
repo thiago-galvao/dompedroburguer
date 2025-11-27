@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio Completo - Dom Pedro Burguer's</title>
-
+    <title>Cardápio Dom Pedro Burguer's</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
         rel="stylesheet" 
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
         crossorigin="anonymous">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="/css/estilocardapio.css"> 
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             
-            <a class="navbar-brand" href="../index">Dom Pedro Burguer's</a>
+            <a class="navbar-brand" href="../../index">Dom Pedro Burguer's</a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" 
@@ -33,58 +32,70 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Acessar Cardápio</a>
+                        <a class="nav-link" href="cardapio">Acessar Cardápio</a>
                     </li>
                     
                     <li class="nav-item">
                         <a class="nav-link" href="gerenciar-produtos">Gerenciar Produtos</a>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="container mt-5">
-        <h1 class="text-center mb-5 display-4 fw-bold">📜 Cardápio</h1>
+    
+    <div class="container py-5">
+        <h1 class="text-center text-danger mb-5 fw-bold">Nosso Cardápio</h1>
         
-        <div class="d-flex justify-content-start mb-4">
-            <a href="../index.html" class="btn btn-secondary">
-                <i class="bi bi-arrow-left-circle-fill"></i> Voltar ao Início
-            </a>
-        </div>
+        <#if mensagem??>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${mensagem}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </#if>
 
-        <h2 class="mt-4 mb-3 text-danger border-bottom pb-2">Lanches e Bebidas</h2>
-
-        <#if erro??>
-            <h1>${erro}</h1>
-        <#else>
-        <#if totalProdutos gt 0>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
-                    <#list produtos as produto>
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                <img src="https://img.freepik.com/fotos-gratis/refeicao-de-hamburguer-grelhado-com-batatas-fritas-e-ia-generativa-de-queijo_188544-8488.jpg" class="card-img-top" alt="Dom Cheddar">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold text-danger">${produto.nome}</h5>
-                                    <p class="card-text"><small class="text-muted">${produto.descricao}</small></p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center">
-                                    <h4 class="mb-0 text-success">${produto.valor}</h4>
-                                    <a href="#" class="btn btn-sm btn-primary">Adicionar</a>
-                                </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            
+            <#list produtos as produto>
+                <div class="col">
+                    <div class="card shadow h-100"> 
+                        
+                        <div class="img-container-fixo">
+                            <img src="${produto.imagem}" class="img-fluid" alt="Imagem do: ${produto.nome}">
+                        </div>
+                        
+                        <div class="card-body d-flex flex-column p-3">
+                            <h5 class="card-title fw-bold text-dark mb-1">${produto.nome}</h5>
+                            
+                            <p class="card-text text-muted mb-3 small flex-grow-1">
+                                ${produto.descricao}
+                            </p>
+                            
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0 text-success fw-bolder">
+                                    R$ ${produto.valor?string["0.00"]?replace(',', '.')}
+                                </h4>
+                                
+                                <a href="#" class="btn btn-sm btn-danger fw-bold">
+                                    Adicionar
+                                </a>
                             </div>
                         </div>
-                    </#list>
+                    </div>
                 </div>
-                <#else>
-                        <h1>Nenhum produto cadastrado!</h1>
-                    </#if>
-                </#if>
+            </#list>
+            
+            <#if produtos?size == 0>
+                <div class="col-12 text-center py-5">
+                    <p class="lead text-muted">Nenhum produto cadastrado no cardápio.</p>
+                    <a href="/pages/adicionar.html" class="btn btn-primary">Adicionar Novo Produto</a>
+                </div>
+            </#if>
+
         </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-            crossorigin="anonymous">
-    </script>
+            crossorigin="anonymous"></script>
 </body>
 </html>

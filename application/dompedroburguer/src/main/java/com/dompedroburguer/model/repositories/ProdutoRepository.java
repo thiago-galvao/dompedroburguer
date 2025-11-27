@@ -20,4 +20,16 @@ public class ProdutoRepository {
     public Resultado<List<Produto>> mostrar(){
         return dao.mostrar();
     }
+
+    public Produto buscar(Long id){
+        return dao.buscar(id);
+    }
+
+    public Produto atualizar(Produto produto){
+        return dao.atualizar(produto);
+    }
+
+    public boolean excluir(Long id){
+        return dao.excluir(id);
+    }
 }

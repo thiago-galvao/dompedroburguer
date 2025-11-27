@@ -1,0 +1,10 @@
+.img-container-fixo {
+    height: 220px;
+    width: 100%;
+    overflow: hidden; 
+}
+.img-container-fixo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}

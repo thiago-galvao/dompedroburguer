@@ -1,15 +1,31 @@
 package com.dompedroburguer.model;
 
 public class Produto {
+    private int id;
     private String nome;
     private String imagem; //imagem está sendo guardada como link no banco de dados.
     private String descricao;
     private Double valor;
+
+    public Produto(){
+
+    }
     public Produto (String nome, String imagem, String descricao, Double valor){
         this.nome = nome;
         this.imagem = imagem;
         this.descricao = descricao;
         this.valor = valor;
+    }
+    
+    public Produto (int id, String nome, String imagem, String descricao, Double valor){
+        this(nome, imagem, descricao, valor);
+        this.id = id;
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
     }
     public String getNome(){
         return nome;

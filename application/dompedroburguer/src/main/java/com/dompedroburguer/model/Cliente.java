@@ -3,6 +3,7 @@ package com.dompedroburguer.model;
 import java.util.Date;
 
 public class Cliente{
+    private int id;
     private String nome;
     private String telefone;
     private String endereco;
@@ -13,21 +14,54 @@ public class Cliente{
     private Date dataNasc;
     private char sexo;
     private String email;
-    public Cliente(String nome, String telefone, String endereco, boolean ativo, Date dataCadastro){
+    public Cliente(){
+
+    }
+    public Cliente(int id, String nome, String telefone, String endereco, boolean ativo, Date dataCadastro, String latitudeLongitude,
+    String complemento, Date dataNasc, char sexo, String email){
+        this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.ativo = ativo;
         this.dataCadastro = dataCadastro;
-    }
-    public Cliente(String nome, String telefone, String endereco, boolean ativo, Date dataCadastro, String latitudeLongitude,
-    String complemento, Date dataNasc, char sexo, String email){
-        this(nome, telefone, endereco, ativo, dataCadastro);
         this.latitudeLongitude = latitudeLongitude;
         this.complemento = complemento;
         this.dataNasc = dataNasc;
         this.sexo = sexo;
         this.email = email;
+    }
+    // Construtor de atualizar cliente
+    public Cliente(int  id, String nome, String telefone, String endereco, boolean ativo, String latLong, String complemento, Date dataNasc, char sexo, String email){
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.ativo = ativo;
+        this.latitudeLongitude = latLong;
+        this.complemento = complemento;
+        this.dataNasc = dataNasc;
+        this.sexo = sexo;
+        this.email = email;
+    }
+    // Construtor para inseirior novo cliente.
+    public Cliente(String nome, String telefone, String endereco, boolean ativo, Date dataCadastro, String latLong, String complemento, Date dataNasc, char sexo, String email){
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.ativo = ativo;
+        this.dataCadastro = dataCadastro;
+        this.latitudeLongitude = latLong;
+        this.complemento = complemento;
+        this.dataNasc = dataNasc;
+        this.sexo = sexo;
+        this.email = email;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+    public int getId(){
+        return id;
     }
     public String getNome() {
         return nome;

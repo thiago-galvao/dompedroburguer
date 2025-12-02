@@ -1,11 +1,19 @@
 package com.dompedroburguer;
 
+import com.dompedroburguer.controllers.ClienteController;
+import com.dompedroburguer.controllers.FormasPagamentoController;
 import com.dompedroburguer.controllers.IndexController;
 import com.dompedroburguer.controllers.ListaProdutoController;
 import com.dompedroburguer.controllers.ProdutoController;
 import com.dompedroburguer.model.FabricaConexoes;
+import com.dompedroburguer.model.dao.ClienteDAO;
+import com.dompedroburguer.model.dao.FormasPagamentoDAO;
+import com.dompedroburguer.model.dao.JDBCClienteDAO;
+import com.dompedroburguer.model.dao.JDBCFormasPagamentoDAO;
 import com.dompedroburguer.model.dao.JDBCProdutoDAO;
 import com.dompedroburguer.model.dao.ProdutoDAO;
+import com.dompedroburguer.model.repositories.ClienteRepository;
+import com.dompedroburguer.model.repositories.FormasPagamentoRepository;
 import com.dompedroburguer.model.repositories.ProdutoRepository;
 import com.dompedroburguer.utils.JavalinUtils;
 
@@ -22,6 +30,14 @@ public class App {
 
         ListaProdutoController listaProdutoController = new ListaProdutoController(repositorioProduto);
 
+        ClienteDAO clienteDAO = new JDBCClienteDAO(FabricaConexoes.getInstance());
+        ClienteRepository repositorioCliente = new ClienteRepository(clienteDAO);
+
+        ClienteController clienteController = new ClienteController(repositorioCliente);
+
+        FormasPagamentoDAO pagamentoDAO = new JDBCFormasPagamentoDAO(FabricaConexoes.getInstance());
+        FormasPagamentoRepository repositorioTipoPagamento = new FormasPagamentoRepository(pagamentoDAO);
+        FormasPagamentoController formasPagamentoController = new FormasPagamentoController(repositorioTipoPagamento);
         // Mostra página inicial.
         app.get("/index", indexController.get);
 
@@ -42,6 +58,17 @@ public class App {
         // Edita o produto.
         app.post("/pages/gerenciar-produtos/{id}", produtoController.post2);
 
+        // Exclui o produto.
         app.post("/pages/excluir-prod/{id}", produtoController.post3);
+
+        app.get("/pages/gerenciar-clientes", clienteController.get);
+
+        app.get("/pages/gerenciar-clientes/{idCliente}", clienteController.buscarCliente);
+
+        app.post("/pages/cliente-att", clienteController.atualizarCliente);
+
+        app.post("/pages/cliente-inserido", clienteController.inserir);
+
+        app.get("/pages/tipos-pagamento", formasPagamentoController.listar);
     }
 }

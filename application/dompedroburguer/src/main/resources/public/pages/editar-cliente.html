@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Editar Cliente</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/estiloeditcliente.css">
+        
+    </head>
+
+    <body>
+        <nav class="navbar lg bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="../../index">Dom Pedro Burguer's</a>
+            </div>
+        </nav>
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <div class="card shadow-sm p-4">
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <h5 class="mb-3">Informações Pessoais</h5>
+
+                                <form method="POST" action="/pages/cliente-att">
+                                    <input type="hidden" name="idCliente" value="${cliente.id}" />
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input name="nome" type="text" class="form-control form-control-lg" value="${cliente.nome}" required />
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Sexo</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="sexo" id="sexoM" value="M" <#if cliente.sexo?? && cliente.sexo == 'M'>checked</#if>>
+                                                <label class="form-check-label" for="sexoM">Masculino</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="sexo" id="sexoF" value="F"<#if cliente.sexo?? && cliente.sexo == 'F'>checked</#if>>
+                                                <label class="form-check-label" for="sexoF">Feminino</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Telefone</label>
+                                        <input name="telefone" type="tel" pattern="[0-9+()\s-]{6,25}" class="form-control" value="${cliente.telefone}" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input name="email" type="email" class="form-control" value="${cliente.email!''}" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Data de Nascimento</label>
+                                        <input name="dataNasc" 
+                                                type="date" 
+                                                class="form-control" 
+                                                value="${ cliente.dataNasc?? ?then(cliente.dataNasc?string('yyyy-MM-dd'), '') }">
+                                    </div>
+
+                                    <div class="mb-3 form-check form-switch">
+                                        <input name="ativo" class="form-check-input" type="checkbox" id="ativoSwitch" 
+                                            <#if cliente.ativo?? && cliente.ativo>
+                                                checked
+                                            </#if>
+                                        />
+                                        <label class="form-check-label" for="ativoSwitch">Ativo</label>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">Salvar alterações</button>
+                                        <a href="/pages/gerenciar-clientes" class="btn btn-outline-secondary btn-lg">Voltar</a>
+                                    </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <h5 class="mb-3">Endereço & Extras</h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Endereço</label>
+                                    <textarea name="endereco" class="form-control" rows="3">${cliente.endereco}</textarea>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Complemento</label>
+                                        <input name="complemento" type="text" class="form-control" value="${cliente.complemento!''}" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Latitude e Longitude</label>
+                                        <input name="latitudeLongitude" type="text" class="form-control" value="${cliente.latitudeLongitude}" placeholder="ex: -25.4284 -49.2733" required/>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light border rounded">
+                                    <h6 class="mb-2">Resumo</h6>
+                                    <ul class="list-unstyled small mb-0">
+                                        <li><strong>ID:</strong> ${cliente.id}</li>
+                                        <li><strong>Status:</strong> <#if cliente.ativo?? && cliente.ativo>Ativo<#else>Inativo</#if></li>
+                                        <li><strong>Telefone:</strong> ${cliente.telefone}</li>
+                                        <li><strong>Cadastro:</strong> ${cliente.dataCadastro?string("dd/MM/yyyy")}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
+    </body>
+</html>

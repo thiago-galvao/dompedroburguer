@@ -85,6 +85,7 @@ public class ProdutoController {
         }
     };
 
+    // Exclui produto
     public Handler post3 = (Context ctx)->{
 
         Long id = ctx.pathParamAsClass("id", Long.class).get();

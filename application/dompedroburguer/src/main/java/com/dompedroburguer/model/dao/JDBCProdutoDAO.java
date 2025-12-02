@@ -66,7 +66,6 @@ public Produto buscar(Long id) {
         return produto;
     }
 
-
     @Override
     public Resultado<List<Produto>> mostrar(){
         List<Produto> lista = new ArrayList<>();
@@ -113,6 +112,7 @@ public Produto buscar(Long id) {
     @Override
     public boolean excluir(Long id){
         String sql = "DELETE FROM pi_cardapio WHERE id = ?";
+        
         try (Connection con = fabrica.getConnection();
             PreparedStatement pstm = con.prepareStatement(sql)) {
             pstm.setLong(1, id);

@@ -1,0 +1,6 @@
+body { background: linear-gradient(120deg,rgb(33,37,41) 0%, rgb(41, 47, 53) 50%, rgb(42, 48, 54) 100%); }
+            .card-hero { box-shadow: 0 8px 30px rgba(0,0,0,.12); border-radius: 14px; }
+            .avatar { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; }
+            .badge-ativo { background: linear-gradient(90deg,#34d399,#10b981); color: white; }
+            .badge-inativo { background: linear-gradient(90deg,#f87171,#ef4444); color: white; }
+            .form-label { font-weight: 600; }

@@ -70,5 +70,13 @@ public class App {
         app.post("/pages/cliente-inserido", clienteController.inserir);
 
         app.get("/pages/tipos-pagamento", formasPagamentoController.listar);
+
+        app.get("/pages/tipo-pagamento/{id}", formasPagamentoController.buscar);
+
+        app.post("/pages/tipos-pagamento", formasPagamentoController.excluir);
+
+        app.post("/pages/edit-forma-pagamento", formasPagamentoController.atualizar);
+
+        app.post("/pages/add-pagamento", formasPagamentoController.inserir);
     }
 }

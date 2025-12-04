@@ -41,4 +41,71 @@ public class JDBCFormasPagamentoDAO implements FormasPagamentoDAO{
             }
             return null;
     }
+
+    @Override
+    public FormasPagamento buscar(int id){
+        String sql = "SELECT * FROM pi_tipo_pagamento WHERE id=?";
+        FormasPagamento formasPagamento = null;
+        try (Connection con = fabrica.getConnection();
+            PreparedStatement pstm = con.prepareStatement(sql)){
+            pstm.setInt(1, id);
+
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    formasPagamento = new FormasPagamento();
+                    formasPagamento.setId(rs.getInt("id"));
+                    formasPagamento.setDescricao(rs.getString("descricao"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return formasPagamento;
+    }
+
+    @Override
+    public boolean inserir(String descricao){
+        String sql = "INSERT INTO pi_tipo_pagamento (descricao) VALUES (?)";
+
+        try (Connection con = fabrica.getConnection();
+            PreparedStatement pstm = con.prepareStatement(sql)){
+                pstm.setString(1, descricao);
+                pstm.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        return false;
+    }
+
+    @Override
+    public boolean excluir(FormasPagamento formaPagamento){
+        String sql = "DELETE FROM pi_tipo_pagamento WHERE id = ?";
+
+        try (Connection con = fabrica.getConnection();
+            PreparedStatement pstm = con.prepareStatement(sql)){
+            pstm.setInt(1, formaPagamento.getId());
+            pstm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean atualizar(FormasPagamento formaPagamento){
+        String sql = "UPDATE pi_tipo_pagamento SET descricao = ? WHERE id = "+formaPagamento.getId();
+
+        try(Connection con = fabrica.getConnection();
+            PreparedStatement pstm = con.prepareStatement(sql)){
+                pstm.setString(1, formaPagamento.getDescricao());
+                pstm.executeUpdate();
+                return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }

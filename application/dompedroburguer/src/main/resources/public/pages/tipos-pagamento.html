@@ -49,7 +49,7 @@
     <div class="container mt-5">
         
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="adicionar-pagamento.html" class="btn btn-primary">
+            <a href="add-pagamento.html" class="btn btn-primary">
                 <i class="bi bi-plus-circle-fill me-2"></i> 
                 Adicionar Novo Tipo
             </a>
@@ -75,16 +75,22 @@
                         <th scope="row">${tipo.id}</th>
                         <td>${tipo.descricao}</td>
                         <td class="text-center">
-                            <a href="editar-pagamento.html?id=1" class="btn btn-sm btn-warning me-2" title="Editar">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <button type="button" class="btn btn-sm btn-danger" title="Excluir">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
+                            <form method="GET" action="/pages/tipo-pagamento/${tipo.id}" class="d-inline">
+                                <input type="hidden" name="id" value="${tipo.id}">
+                                <button type="submit" class="btn btn-sm btn-warning" title="Editar">
+                                    Editar
+                                </button>
+                            </form>
+                            <form method="POST" action="/pages/tipos-pagamento" class="d-inline">
+                                <input type="hidden" name="id" value="${tipo.id}">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este item?');">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </#list>
-                    </tbody>
+                </tbody>
             </table>
         </div>
         

@@ -7,6 +7,9 @@ public class FormasPagamento{
         this.id = id;
         this.descricao = descricao;
     }
+    public FormasPagamento(){
+        
+    }
     public int getId() {
         return id;
     }

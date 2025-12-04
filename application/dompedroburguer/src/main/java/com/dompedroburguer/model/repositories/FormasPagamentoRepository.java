@@ -13,4 +13,16 @@ public class FormasPagamentoRepository {
     public List<FormasPagamento> listar(){
         return dao.listar();
     }
+    public FormasPagamento buscar(int id){
+        return dao.buscar(id);
+    }
+    public boolean inserir(String descricao){
+        return dao.inserir(descricao);
+    }
+    public boolean excluir(FormasPagamento formaPagamento){
+        return dao.excluir(formaPagamento);
+    }
+    public boolean atualizar(FormasPagamento formasPagamento){
+        return dao.atualizar(formasPagamento);
+    }
 }

@@ -92,8 +92,8 @@
             <label class="form-label">Complemento?</label>
             <select name="complemento" class="form-select">
                 <option value="">-- Ambos --</option>
-                <option value="sim" <#if complemento=='sim'>selected</#if>>Sim</option>
-                <option value="nao" <#if complemento=='nao'>selected</#if>>Não</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
             </select>
             </div>
 
@@ -144,7 +144,7 @@
 
         <div class="d-flex justify-content-end mt-3">
         <div class="text-end">
-            <div class="total-line">Total: R$ ${total?string['0.00']!"0.00"}</div>
+            <div class="total-line">Total: R$ 0</div>
         </div>
         </div>
 

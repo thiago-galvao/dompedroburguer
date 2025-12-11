@@ -6,6 +6,7 @@ import com.dompedroburguer.controllers.FormasPagamentoController;
 import com.dompedroburguer.controllers.IndexController;
 import com.dompedroburguer.controllers.ListaProdutoController;
 import com.dompedroburguer.controllers.ProdutoController;
+import com.dompedroburguer.controllers.RelatorioVendasController;
 import com.dompedroburguer.model.FabricaConexoes;
 import com.dompedroburguer.model.dao.CheckoutDAO;
 import com.dompedroburguer.model.dao.ClienteDAO;
@@ -47,7 +48,7 @@ public class App {
         CheckoutDAO checkoutDAO = new JDBCCheckoutDAO(FabricaConexoes.getInstance());
         CheckoutRepository repositorioCheckout = new CheckoutRepository(checkoutDAO, clienteDAO);
         CheckoutController checkoutController = new CheckoutController(repositorioCheckout, repositorioCliente, repositorioProduto, repositorioTipoPagamento);
-        
+        RelatorioVendasController relatorioController = new RelatorioVendasController();
 
         // Mostra página inicial.
         app.get("/index", indexController.get);
@@ -93,5 +94,7 @@ public class App {
         app.get("/pages/cad-pedido", checkoutController.get);
         
         app.post("/pages/cad-pedido", checkoutController.inserir);
+
+        app.get("/pages/relatorio-vendas", relatorioController.get);
     }
 }

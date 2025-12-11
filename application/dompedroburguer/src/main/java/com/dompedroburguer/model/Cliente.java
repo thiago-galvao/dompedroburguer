@@ -57,6 +57,20 @@ public class Cliente{
         this.sexo = sexo;
         this.email = email;
     }
+    // Construtor para inserir novo pedido em caso de entrega.
+    public Cliente(int id, String nome, String telefone, String endereco, String complemento){
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.complemento = complemento;
+    }
+    // Construtor para inserir novo pedido em caso de retirada balcão.
+    public Cliente(int id, String nome, String telefone){
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+    }
     public void setId(int id){
         this.id = id;
     }

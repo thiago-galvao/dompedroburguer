@@ -56,26 +56,21 @@ public class FormasPagamentoController {
         FormasPagamento formasPagamento = repositorio.buscar(idInt);
         formasPagamento.setDescricao(descricao);
 
-        if (repositorio.atualizar(formasPagamento)){
+        try {
+            repositorio.atualizar(formasPagamento);
             ctx.redirect("/pages/tipos-pagamento");
-        } else {
-            Map<String, Object> dados = new HashMap<>();
-            dados.put("erro", "Erro ao atualizar produto.");
-            ctx.render("/pages/edit-forma-pagamento", dados);
+        } catch (Exception e){
+            e.getMessage();
         }
     };
 
     public Handler inserir = (Context ctx)->{
-        String descricao = ctx.formParam("tipoDescricao");
-
-        Map<String, Object> dados = new HashMap<>();
-        if (repositorio.inserir(descricao)){
-            
-            dados.put("sucesso", "Tipo de pagamento inserido com sucesso!");
-            System.out.println("passou aqui");
-        } else {
-            dados.put("erro", "Erro ao incluir tipo de pagamento.");
+        String descricao = ctx.formParam("descricao");
+        try {
+            repositorio.inserir(descricao);
+            ctx.redirect("/pages/tipos-pagamento");
+        } catch (Exception e) {
+            e.getMessage();
         }
-        ctx.render("/pages/add-pagamento", dados);
     };
 }

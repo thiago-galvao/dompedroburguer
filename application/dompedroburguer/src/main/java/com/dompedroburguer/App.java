@@ -1,17 +1,21 @@
 package com.dompedroburguer;
 
+import com.dompedroburguer.controllers.CheckoutController;
 import com.dompedroburguer.controllers.ClienteController;
 import com.dompedroburguer.controllers.FormasPagamentoController;
 import com.dompedroburguer.controllers.IndexController;
 import com.dompedroburguer.controllers.ListaProdutoController;
 import com.dompedroburguer.controllers.ProdutoController;
 import com.dompedroburguer.model.FabricaConexoes;
+import com.dompedroburguer.model.dao.CheckoutDAO;
 import com.dompedroburguer.model.dao.ClienteDAO;
 import com.dompedroburguer.model.dao.FormasPagamentoDAO;
+import com.dompedroburguer.model.dao.JDBCCheckoutDAO;
 import com.dompedroburguer.model.dao.JDBCClienteDAO;
 import com.dompedroburguer.model.dao.JDBCFormasPagamentoDAO;
 import com.dompedroburguer.model.dao.JDBCProdutoDAO;
 import com.dompedroburguer.model.dao.ProdutoDAO;
+import com.dompedroburguer.model.repositories.CheckoutRepository;
 import com.dompedroburguer.model.repositories.ClienteRepository;
 import com.dompedroburguer.model.repositories.FormasPagamentoRepository;
 import com.dompedroburguer.model.repositories.ProdutoRepository;
@@ -19,7 +23,7 @@ import com.dompedroburguer.utils.JavalinUtils;
 
 public class App {
     public static void main(String[] args){
-        var app = JavalinUtils.makeApp(7070);
+        var app = JavalinUtils.makeApp(7090);
 
         ProdutoDAO produtoDAO = new JDBCProdutoDAO(FabricaConexoes.getInstance());
         ProdutoRepository repositorioProduto = new ProdutoRepository(produtoDAO);
@@ -38,6 +42,13 @@ public class App {
         FormasPagamentoDAO pagamentoDAO = new JDBCFormasPagamentoDAO(FabricaConexoes.getInstance());
         FormasPagamentoRepository repositorioTipoPagamento = new FormasPagamentoRepository(pagamentoDAO);
         FormasPagamentoController formasPagamentoController = new FormasPagamentoController(repositorioTipoPagamento);
+
+        
+        CheckoutDAO checkoutDAO = new JDBCCheckoutDAO(FabricaConexoes.getInstance());
+        CheckoutRepository repositorioCheckout = new CheckoutRepository(checkoutDAO, clienteDAO);
+        CheckoutController checkoutController = new CheckoutController(repositorioCheckout, repositorioCliente, repositorioProduto, repositorioTipoPagamento);
+        
+
         // Mostra página inicial.
         app.get("/index", indexController.get);
 
@@ -78,5 +89,9 @@ public class App {
         app.post("/pages/edit-forma-pagamento", formasPagamentoController.atualizar);
 
         app.post("/pages/add-pagamento", formasPagamentoController.inserir);
+
+        app.get("/pages/cad-pedido", checkoutController.get);
+        
+        app.post("/pages/cad-pedido", checkoutController.inserir);
     }
 }

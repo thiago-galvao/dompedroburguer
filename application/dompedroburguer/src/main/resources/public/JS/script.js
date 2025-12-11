@@ -119,19 +119,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     document.getElementById('dataHoraPedido').value = `${year}-${month}-${day}T${hours}:${minutes}`;
-});
-
-document.getElementById('orderForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    alert('Formulário Submetido! (Verifique o console para os dados)');
     
-    const dadosPedido = {
-        dataHora: document.getElementById('dataHoraPedido').value,
-    };
-    
-    console.log(dadosPedido);
+    // Handler de submit do formulário
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+        const dataHora = document.getElementById('dataHoraPedido').value;
+        const clienteId = document.getElementById('nomeCliente').value;
+        const formaPagamento = document.getElementById('formaPagamento').value;
+        
+        // Validações básicas
+        if (!dataHora || dataHora.trim() === '') {
+            event.preventDefault();
+            alert('⚠️ Erro: Data e hora do pedido não foram preenchidas corretamente');
+            console.error('dataHoraPedido vazio:', dataHora);
+            return false;
+        }
+        
+        if (!clienteId || clienteId.trim() === '') {
+            event.preventDefault();
+            alert('⚠️ Erro: Selecione um cliente');
+            return false;
+        }
+        
+        if (!formaPagamento || formaPagamento.trim() === '') {
+            event.preventDefault();
+            alert('⚠️ Erro: Selecione uma forma de pagamento');
+            return false;
+        }
+        
+        // Verificar se há pelo menos um produto
+        const produtosAdicionados = document.querySelectorAll('.product-item').length;
+        if (produtosAdicionados === 0) {
+            event.preventDefault();
+            alert('⚠️ Erro: Adicione pelo menos um produto ao pedido');
+            return false;
+        }
+        
+        console.log('Formulário validado. Enviando...');
+        console.log('Data/Hora:', dataHora);
+        console.log('Cliente:', clienteId);
+        console.log('Produtos:', produtosAdicionados);
+        // Permite que o formulário seja enviado normalmente
+    });
 });
-
 function preencherDadosCliente() {
     const select = document.getElementById('nomeCliente');
     const selectedOption = select.options[select.selectedIndex];

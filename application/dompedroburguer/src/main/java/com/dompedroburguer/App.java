@@ -24,7 +24,7 @@ import com.dompedroburguer.utils.JavalinUtils;
 
 public class App {
     public static void main(String[] args){
-        var app = JavalinUtils.makeApp(7090);
+        var app = JavalinUtils.makeApp(8090);
 
         ProdutoDAO produtoDAO = new JDBCProdutoDAO(FabricaConexoes.getInstance());
         ProdutoRepository repositorioProduto = new ProdutoRepository(produtoDAO);

@@ -87,13 +87,13 @@
                 <div class="order-form-card">
                     <h2 class="text-center mb-4 text-primary"><i class="bi bi-cart-plus-fill me-2"></i> Inserir Novo Pedido</h2>
                     
-                    <form id="orderForm">
+                    <form id="orderForm" method="POST" action="/pages/cad-pedido">
                         
                         <div class="row mb-4 align-items-center">
                             
                             <div class="col-md-6">
                                 <label for="dataHoraPedido" class="form-label">Data e Hora do Pedido</label>
-                                <input type="datetime-local" class="form-control" id="dataHoraPedido" required>
+                                <input type="datetime-local" class="form-control" id="dataHoraPedido" name="dataHoraPedido" required>
                             </div>
 
                             <div class="col-md-6">
@@ -185,7 +185,7 @@
                             id="opcoesProdutosTemplate" 
                             value="${opcoesProdutosHtmlFinal?html}">
 
-                        <!-- Visible product select populated from controller -->
+                        <!-- Para o controller -->
                         <div class="mb-3 d-flex gap-2 align-items-end">
                             <div style="width: 40%;">
                                 <label for="produtoSelect" class="form-label">Produto</label>

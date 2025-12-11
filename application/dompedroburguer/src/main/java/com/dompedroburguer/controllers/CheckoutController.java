@@ -44,11 +44,35 @@ public class CheckoutController {
     };
 
     public Handler inserir = (Context ctx)->{
+        System.out.println("=== CHECKOUT INSERIR - INICIANDO ===");
+        System.out.println("Todos os parâmetros: " + ctx.formParamMap());
+        
         String dataHoraString = ctx.formParam("dataHoraPedido");
-        DateTimeFormatter formatador = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-        LocalDateTime dataHora = LocalDateTime.parse(dataHoraString, formatador);
+        System.out.println("dataHoraPedido recebido: '" + dataHoraString + "'");
+        
+        if (dataHoraString == null || dataHoraString.isEmpty()) {
+            System.err.println("ERRO: dataHoraPedido é null ou vazio!");
+            ctx.status(400);
+            ctx.result("Erro: Data e hora do pedido são obrigatórios");
+            return;
+        }
+        
+        LocalDateTime dataHora;
+        try {
+            DateTimeFormatter formatador = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+            dataHora = LocalDateTime.parse(dataHoraString, formatador);
+            System.out.println("Data parseada com sucesso: " + dataHora);
+        } catch (Exception e) {
+            System.err.println("ERRO ao parsear data: " + e.getMessage());
+            e.printStackTrace();
+            ctx.status(400);
+            ctx.result("Erro ao processar data e hora: " + e.getMessage());
+            return;
+        }
+        
         String servico = ctx.formParam("tipoServico");
         boolean tipoServico = Boolean.parseBoolean(servico);
+        System.out.println("Tipo de serviço (entrega=true): " + tipoServico);
 
         // Atributos para construir cliente.
         String id = ctx.formParam("clienteId");
@@ -63,8 +87,52 @@ public class CheckoutController {
             Cliente cliente = new Cliente(idInt, nomeCliente, telefone);
         }
         String obs = ctx.formParam("observacaoEntrega");
-        List<Produto> produtos = new ArrayList<>();
         
+        // Ler os produtos adicionados dinamicamente
+        List<Produto> produtos = new ArrayList<>();
+        int index = 0;
+        while (true) {
+            String produtoIdStr = ctx.formParam("itens[" + index + "].produtoId");
+            if (produtoIdStr == null || produtoIdStr.isEmpty()) {
+                break; // Não há mais produtos
+            }
+            
+            String quantidadeStr = ctx.formParam("itens[" + index + "].quantidade");
+            String valorUnitarioStr = ctx.formParam("itens[" + index + "].valorUnitario");
+            String nomeProduto = ctx.formParam("itens[" + index + "].nome");
+            
+            try {
+                int produtoId = Integer.parseInt(produtoIdStr);
+                int quantidade = Integer.parseInt(quantidadeStr);
+                    // Converte vírgula para ponto para aceitar formato brasileiro
+                    String valorUnitarioNormalizado = valorUnitarioStr.replace(',', '.');
+                    double valorUnitario = Double.parseDouble(valorUnitarioNormalizado);
+                
+                // Criar produto com os dados do formulário
+                Produto p = new Produto();
+                p.setId(produtoId);
+                p.setNome(nomeProduto);
+                p.setValor(valorUnitario);
+                // Se tiver campo de quantidade na classe Produto, atribua aqui
+                // p.setQuantidade(quantidade);
+                
+                produtos.add(p);
+            } catch (NumberFormatException e) {
+                System.err.println("Erro ao parsear produto no índice " + index + ": " + e.getMessage());
+            }
+            
+            index++;
+        }
+        
+        // Agora você tem:
+        // - dataHora (LocalDateTime)
+        // - tipoServico (boolean)
+        // - cliente (Cliente)
+        // - produtos (List<Produto>)
+        // - obs (String)
+        // Você pode salvar no repositório
+        System.out.println("Pedido recebido com " + produtos.size() + " produtos");
+        ctx.render("/index.html");
     };
 }
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dompedroburguer.model.Checkout;
 import com.dompedroburguer.model.Cliente;
 import com.dompedroburguer.model.FormasPagamento;
 import com.dompedroburguer.model.Produto;
@@ -44,11 +45,8 @@ public class CheckoutController {
     };
 
     public Handler inserir = (Context ctx)->{
-        System.out.println("=== CHECKOUT INSERIR - INICIANDO ===");
-        System.out.println("Todos os parâmetros: " + ctx.formParamMap());
         
         String dataHoraString = ctx.formParam("dataHoraPedido");
-        System.out.println("dataHoraPedido recebido: '" + dataHoraString + "'");
         
         if (dataHoraString == null || dataHoraString.isEmpty()) {
             System.err.println("ERRO: dataHoraPedido é null ou vazio!");
@@ -74,27 +72,34 @@ public class CheckoutController {
         boolean tipoServico = Boolean.parseBoolean(servico);
         System.out.println("Tipo de serviço (entrega=true): " + tipoServico);
 
-        // Atributos para construir cliente.
-        String id = ctx.formParam("clienteId");
-        int idInt = Integer.parseInt(id);
-        String nomeCliente = ctx.formParam("nomeCliente");
-        String telefone = ctx.formParam("telefone");
-        String endereco = ctx.formParam("enderecoEntrega");
-        String complemento = ctx.formParam("complemento");
-        if (tipoServico){
-            Cliente cliente = new Cliente(idInt, nomeCliente, telefone, endereco, complemento);
-        } else {
-            Cliente cliente = new Cliente(idInt, nomeCliente, telefone);
+        String clienteIdStr = ctx.formParam("clienteId");
+        int clienteId = Integer.parseInt(clienteIdStr);
+        Long clienteLong = Long.valueOf(clienteId);
+        // Buscar cliente completo no banco
+        Cliente clienteBanco = clienteRepo.buscar(clienteLong);
+        if (clienteBanco == null) {
+            ctx.status(400);
+            ctx.result("Erro: Cliente não encontrado");
+            return;
         }
-        String obs = ctx.formParam("observacaoEntrega");
+        System.out.println("Cliente encontrado: " + clienteBanco.getNome());
         
-        // Ler os produtos adicionados dinamicamente
+        String obs = ctx.formParam("observacaoEntrega");
+
+        Cliente cliente = null;
+        if (tipoServico){
+            cliente = new Cliente(clienteId, clienteBanco.getNome(), clienteBanco.getTelefone(), clienteBanco.getEndereco(), clienteBanco.getComplemento());
+        } else {
+            cliente = new Cliente(clienteId, clienteBanco.getNome(), clienteBanco.getTelefone());
+        }
+        
         List<Produto> produtos = new ArrayList<>();
+        
         int index = 0;
         while (true) {
             String produtoIdStr = ctx.formParam("itens[" + index + "].produtoId");
             if (produtoIdStr == null || produtoIdStr.isEmpty()) {
-                break; // Não há mais produtos
+                break;
             }
             
             String quantidadeStr = ctx.formParam("itens[" + index + "].quantidade");
@@ -108,13 +113,10 @@ public class CheckoutController {
                     String valorUnitarioNormalizado = valorUnitarioStr.replace(',', '.');
                     double valorUnitario = Double.parseDouble(valorUnitarioNormalizado);
                 
-                // Criar produto com os dados do formulário
                 Produto p = new Produto();
                 p.setId(produtoId);
                 p.setNome(nomeProduto);
                 p.setValor(valorUnitario);
-                // Se tiver campo de quantidade na classe Produto, atribua aqui
-                // p.setQuantidade(quantidade);
                 
                 produtos.add(p);
             } catch (NumberFormatException e) {
@@ -124,14 +126,39 @@ public class CheckoutController {
             index++;
         }
         
-        // Agora você tem:
-        // - dataHora (LocalDateTime)
-        // - tipoServico (boolean)
-        // - cliente (Cliente)
-        // - produtos (List<Produto>)
-        // - obs (String)
-        // Você pode salvar no repositório
-        System.out.println("Pedido recebido com " + produtos.size() + " produtos");
+        String formaPagamentoId = ctx.formParam("formaPagamento");
+        int pagamentoId = Integer.parseInt(formaPagamentoId);
+        FormasPagamento formaPagamento = pagRepo.buscar(pagamentoId);
+
+        FormasPagamento fPagamento = new FormasPagamento(pagamentoId, formaPagamento.getDescricao());
+
+        double valorTotal = 0.0;
+        String valTot = ctx.formParam("valorTotal");
+        if (valTot != null && !valTot.isEmpty()) {
+            try {
+                String vt = valTot.replace(',', '.');
+                valorTotal = Double.parseDouble(vt);
+            } catch (NumberFormatException e) {
+                System.err.println("Erro ao parsear valor total: " + valTot);
+                System.err.println(e.getMessage());
+            }
+        }
+        double valorFinal = 0.0;
+        String valFin = ctx.formParam("valorFinal");
+        if (valFin != null && !valFin.isEmpty()) {
+            try {
+                String vf = valFin.replace(',', '.');
+                valorFinal = Double.parseDouble(vf);
+            } catch (NumberFormatException e) {
+                System.err.println("Erro ao parsear valor final: " + valFin);
+                System.err.println(e.getMessage());
+            }
+        }
+
+        Checkout check = new Checkout(dataHora, tipoServico, cliente, produtos, obs, fPagamento, valorTotal, valorFinal);
+
+        repositorio.inserir(check);
+
         ctx.render("/index.html");
     };
 }

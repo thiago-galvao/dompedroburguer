@@ -46,7 +46,7 @@ public class App {
 
         
         CheckoutDAO checkoutDAO = new JDBCCheckoutDAO(FabricaConexoes.getInstance());
-        CheckoutRepository repositorioCheckout = new CheckoutRepository(checkoutDAO, clienteDAO);
+        CheckoutRepository repositorioCheckout = new CheckoutRepository(checkoutDAO);
         CheckoutController checkoutController = new CheckoutController(repositorioCheckout, repositorioCliente, repositorioProduto, repositorioTipoPagamento);
         RelatorioVendasController relatorioController = new RelatorioVendasController();
 

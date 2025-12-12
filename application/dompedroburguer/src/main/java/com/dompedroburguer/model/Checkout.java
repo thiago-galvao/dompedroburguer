@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Checkout {
     private int id;
     private LocalDateTime dataHoraCompra;
@@ -21,18 +22,29 @@ public class Checkout {
     public Checkout() {
     }
 
-    public Checkout(LocalDateTime dataHoraCompra, boolean entregaBalcao, Cliente cliente, String obs, FormasPagamento fPagamento, double valorTotal, String cupom, double valorFinal, String status) {
+    // - dataHora (LocalDateTime)
+    // - tipoServico (boolean)
+    // - cliente (Cliente)
+    // - produtos (List<Produto>)
+    // - obs (String)
+    // Forma de pagamento.
+    // valor taotal
+    // valor final
+
+    public Checkout(LocalDateTime dataHoraCompra, boolean entregaBalcao, Cliente cliente, List<Produto> produtos, String obs, FormasPagamento fPagamento, double valorTotal, double valorFinal) {
         this.dataHoraCompra = dataHoraCompra;
         this.entregaBalcao = entregaBalcao;
         this.cliente = cliente;
+        this.produtos = produtos;
         this.obs = obs;
         this.fPagamento = fPagamento;
         this.valorTotal = valorTotal;
-        this.cupom = cupom;
         this.valorFinal = valorFinal;
-        this.status = status;
     }
-
+    @Override
+    public String toString(){
+        return "Checkout{id="+id+", dataHoraCompra="+dataHoraCompra+", entregaBalcao="+entregaBalcao+", cliente="+cliente+", obs="+obs+", produtos="+produtos+", fPagamento="+fPagamento+", valorTotal="+valorTotal+", valorFinal="+valorFinal+", status="+status+", cupom="+cupom+", enderecoEntrega="+enderecoEntrega+"}";
+    }
     public int getId() {
         return id;
     }
@@ -127,6 +139,14 @@ public class Checkout {
 
     public void setEnderecoEntrega(String enderecoEntrega) {
         this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
 }

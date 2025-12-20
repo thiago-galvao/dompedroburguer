@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dompedroburguer.model.Checkout;
+import com.dompedroburguer.model.CheckoutCardapio;
 import com.dompedroburguer.model.Cliente;
 import com.dompedroburguer.model.FormasPagamento;
 import com.dompedroburguer.model.Produto;
@@ -56,10 +57,10 @@ public class CheckoutController {
         }
         
         LocalDateTime dataHora;
+        
         try {
             DateTimeFormatter formatador = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
             dataHora = LocalDateTime.parse(dataHoraString, formatador);
-            System.out.println("Data parseada com sucesso: " + dataHora);
         } catch (Exception e) {
             System.err.println("ERRO ao parsear data: " + e.getMessage());
             e.printStackTrace();
@@ -70,7 +71,6 @@ public class CheckoutController {
         
         String servico = ctx.formParam("tipoServico");
         boolean tipoServico = Boolean.parseBoolean(servico);
-        System.out.println("Tipo de serviço (entrega=true): " + tipoServico);
 
         String clienteIdStr = ctx.formParam("clienteId");
         int clienteId = Integer.parseInt(clienteIdStr);
@@ -82,7 +82,6 @@ public class CheckoutController {
             ctx.result("Erro: Cliente não encontrado");
             return;
         }
-        System.out.println("Cliente encontrado: " + clienteBanco.getNome());
         
         String obs = ctx.formParam("observacaoEntrega");
 
@@ -93,7 +92,7 @@ public class CheckoutController {
             cliente = new Cliente(clienteId, clienteBanco.getNome(), clienteBanco.getTelefone());
         }
         
-        List<Produto> produtos = new ArrayList<>();
+        List<CheckoutCardapio> itensParaSalvar = new ArrayList<>();
         
         int index = 0;
         while (true) {
@@ -105,20 +104,22 @@ public class CheckoutController {
             String quantidadeStr = ctx.formParam("itens[" + index + "].quantidade");
             String valorUnitarioStr = ctx.formParam("itens[" + index + "].valorUnitario");
             String nomeProduto = ctx.formParam("itens[" + index + "].nome");
+            String obsProd = ctx.formParam("itens[" + index + "].observacao");
             
             try {
                 int produtoId = Integer.parseInt(produtoIdStr);
                 int quantidade = Integer.parseInt(quantidadeStr);
-                    // Converte vírgula para ponto para aceitar formato brasileiro
-                    String valorUnitarioNormalizado = valorUnitarioStr.replace(',', '.');
-                    double valorUnitario = Double.parseDouble(valorUnitarioNormalizado);
+                // Converte vírgula para ponto para aceitar formato brasileiro
+                String valorUnitarioNormalizado = valorUnitarioStr.replace(',', '.');
+                double valorUnitario = Double.parseDouble(valorUnitarioNormalizado);
                 
                 Produto p = new Produto();
                 p.setId(produtoId);
                 p.setNome(nomeProduto);
                 p.setValor(valorUnitario);
                 
-                produtos.add(p);
+                CheckoutCardapio chk = new CheckoutCardapio(p, obsProd, quantidade, (quantidade * valorUnitario));
+                itensParaSalvar.add(chk);
             } catch (NumberFormatException e) {
                 System.err.println("Erro ao parsear produto no índice " + index + ": " + e.getMessage());
             }
@@ -155,11 +156,15 @@ public class CheckoutController {
             }
         }
 
-        Checkout check = new Checkout(dataHora, tipoServico, cliente, produtos, obs, fPagamento, valorTotal, valorFinal);
+        Checkout check = new Checkout(dataHora, tipoServico, cliente, obs, fPagamento, valorTotal, valorFinal);
 
-        repositorio.inserir(check);
+        Checkout check2 = repositorio.inserir(check, itensParaSalvar);
+        
+        Map<String, Object> dados = new HashMap<>();
+        dados.put("check", check2);
+        dados.put("listaItens", itensParaSalvar);
 
-        ctx.render("/index.html");
+        ctx.render("/pages/comanda.html", dados);
     };
 }
 

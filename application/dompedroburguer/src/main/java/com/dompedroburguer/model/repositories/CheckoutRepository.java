@@ -1,6 +1,9 @@
 package com.dompedroburguer.model.repositories;
 
+import java.util.List;
+
 import com.dompedroburguer.model.Checkout;
+import com.dompedroburguer.model.CheckoutCardapio;
 import com.dompedroburguer.model.dao.CheckoutDAO;
 
 public class CheckoutRepository {
@@ -10,8 +13,10 @@ public class CheckoutRepository {
         this.dao = dao;
     }
 
-    public boolean inserir(Checkout check){
-
-        return dao.inserir(check);
+    public Checkout inserir(Checkout check, List<CheckoutCardapio> checkCad){
+        return dao.inserir(check, checkCad);
+    }
+    public Checkout buscar(int id){
+        return dao.buscar(id);
     }
 }

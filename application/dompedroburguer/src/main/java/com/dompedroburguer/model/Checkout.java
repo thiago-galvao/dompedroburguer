@@ -1,8 +1,6 @@
 package com.dompedroburguer.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Checkout {
@@ -11,7 +9,6 @@ public class Checkout {
     private boolean entregaBalcao; //Se for true é entrega, se false é retirada.
     private Cliente cliente;
     private String obs;
-    private List<Produto> produtos = new ArrayList<>();
     private FormasPagamento fPagamento;
     private double valorTotal;
     private String cupom;
@@ -31,19 +28,22 @@ public class Checkout {
     // valor taotal
     // valor final
 
-    public Checkout(LocalDateTime dataHoraCompra, boolean entregaBalcao, Cliente cliente, List<Produto> produtos, String obs, FormasPagamento fPagamento, double valorTotal, double valorFinal) {
+    public Checkout(LocalDateTime dataHoraCompra, boolean entregaBalcao, Cliente cliente, String obs, FormasPagamento fPagamento, double valorTotal, double valorFinal) {
         this.dataHoraCompra = dataHoraCompra;
         this.entregaBalcao = entregaBalcao;
         this.cliente = cliente;
-        this.produtos = produtos;
         this.obs = obs;
         this.fPagamento = fPagamento;
         this.valorTotal = valorTotal;
         this.valorFinal = valorFinal;
     }
+    public Checkout(int id, LocalDateTime dataHoraCompra){
+        this.id = id;
+        this.dataHoraCompra = dataHoraCompra;
+    }
     @Override
     public String toString(){
-        return "Checkout{id="+id+", dataHoraCompra="+dataHoraCompra+", entregaBalcao="+entregaBalcao+", cliente="+cliente+", obs="+obs+", produtos="+produtos+", fPagamento="+fPagamento+", valorTotal="+valorTotal+", valorFinal="+valorFinal+", status="+status+", cupom="+cupom+", enderecoEntrega="+enderecoEntrega+"}";
+        return "Checkout{id="+id+", dataHoraCompra="+dataHoraCompra+", entregaBalcao="+entregaBalcao+", cliente="+cliente+", obs="+obs+", fPagamento="+fPagamento+", valorTotal="+valorTotal+", valorFinal="+valorFinal+", status="+status+", cupom="+cupom+", enderecoEntrega="+enderecoEntrega+"}";
     }
     public int getId() {
         return id;
@@ -139,14 +139,6 @@ public class Checkout {
 
     public void setEnderecoEntrega(String enderecoEntrega) {
         this.enderecoEntrega = enderecoEntrega;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
 }

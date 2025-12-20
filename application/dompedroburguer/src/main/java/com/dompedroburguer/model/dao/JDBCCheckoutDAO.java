@@ -2,13 +2,15 @@ package com.dompedroburguer.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import com.dompedroburguer.model.Checkout;
+import com.dompedroburguer.model.CheckoutCardapio;
 import com.dompedroburguer.model.FabricaConexoes;
-import com.dompedroburguer.model.Produto;
 import com.dompedroburguer.utils.DBUtils;
-import com.github.hugoperlin.results.Resultado;
 
 public class JDBCCheckoutDAO implements CheckoutDAO{
 
@@ -19,7 +21,7 @@ public class JDBCCheckoutDAO implements CheckoutDAO{
     }
 
     @Override
-    public boolean inserir(Checkout checkout) {
+    public Checkout inserir(Checkout checkout, List<CheckoutCardapio> checkCad) {
         String sql = "INSERT INTO pi_checkout (id_tipo_pagamento, id_cliente, valor_total, valor_final, entrega_balcao, data_hora_compra, observacoes, endereco_entrega, status, cupom) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try(Connection con = fabrica.getConnection())
@@ -44,35 +46,40 @@ public class JDBCCheckoutDAO implements CheckoutDAO{
                     String sql2 = "INSERT INTO pi_checkout_cardapio (id_checkout,id_cardapio, observacao, quantidade, valor) VALUES(?,?,?,?,?)";
                     PreparedStatement pstmt2 = con.prepareStatement(sql2);
 
-                    for(Produto produto:checkout.getProdutos()){
+                    for(CheckoutCardapio checkCardapio : checkCad){
                         pstmt2.setInt(1, id);
-                        pstmt2.setInt(2, produto.getId());
-                        pstmt2.setString(3, checkout.getObs());
+                        pstmt2.setInt(2, checkCardapio.getProduto().getId());
+                        pstmt2.setString(3, checkCardapio.getObs());
+                        pstmt2.setInt(4, checkCardapio.getQtd());
+                        pstmt2.setDouble(5, checkCardapio.getValor());
                         pstmt2.executeUpdate();
                     }
                     pstmt2.close();
-
-                
-                    return true;
+                    return checkout;
                 }else{
-                    return false;
                 }
             }catch(SQLException e){
                 e.printStackTrace();
             }
-            return false;
+            return checkout;
         }
-        /*id pagamento.
-id cliente.
-valor total
-valor final
-entrega ou balcao*/ 
 
-// - dataHora (LocalDateTime)
-        // - tipoServico (boolean)
-        // - cliente (Cliente)
-        // - produtos (List<Produto>)
-        // - obs (String)
-        // Forma de pagamento.
-        // Você pode salvar no repositório
+        @Override
+        public Checkout buscar(int id){
+            String sql = "SELECT * FROM pi_checkout WHERE id = ?";
+            Checkout check = null;
+
+            try (Connection con = fabrica.getConnection();
+                PreparedStatement pstm = con.prepareStatement(sql)) {
+                    pstm.setInt(1, id);
+                    ResultSet rs = pstm.executeQuery();
+
+                    check = new Checkout();
+                    check.setId(rs.getInt("id"));
+                    check.setDataHoraCompra(rs.getObject("data_hora_compra", LocalDateTime.class));
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            return check;
+        }
 }

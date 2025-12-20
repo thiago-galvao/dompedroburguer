@@ -51,6 +51,15 @@ function adicionarProdutoComQtd(quantidade = 1) {
         <div class="col-md-2 mb-2 d-flex justify-content-end">
             <button type="button" class="btn btn-sm btn-danger" onclick="removerProduto('item-${id}')">Remover</button>
         </div>
+        <div class="col-12 mb-3">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light text-muted">Obs:</span>
+                <input type="text" class="form-control form-control-sm border-start-0" 
+                    id="observacao-${id}" 
+                    name="itens[${id}].observacao" 
+                    placeholder="Ex: Sem cebola, embalagem para levar, etc.">
+            </div>
+        </div>
     `;
 
     // Insere antes do resumo financeiro (procura o botão de adicionar)

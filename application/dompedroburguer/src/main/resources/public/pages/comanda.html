@@ -8,7 +8,6 @@
     <style>
         body {
             background-color: #f8f9fa;
-            font-family: 'Courier New', Courier, monospace;
         }
         .comanda-container {
             width: 380px; /* Largura padrão de impressora térmica */
@@ -17,6 +16,7 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border: 1px solid #ddd;
+            font-family: 'Courier New', Courier, monospace;
         }
         .dotted-line {
             border-top: 1px dashed #000;
@@ -46,7 +46,7 @@
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             
-            <a class="navbar-brand" href="index">Dom Pedro Burguer's</a>
+            <a class="navbar-brand" href="../../index">Dom Pedro Burguer's</a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" 
@@ -116,11 +116,14 @@
         <div class="items-list">
             <div class="d-flex justify-content-between item-row">
                 <span>${item.qtd} - ${item.produto.nome}</span>
-                <span>R$ ${item.valor}</span>
+                <span>R$ ${item.valor?string(",##0.00")}</span>
             </div>
+            <#if item.obs?has_content>
             <div class="obs-box">
                 OBS: ${item.obs}
             </div>
+            <#else>
+            </#if>
         </div>
     </#list>
 
@@ -132,6 +135,7 @@
         <#if check.entregaBalcao>
             <p class="mb-1"><strong>Endereço:</strong> ${check.cliente.endereco}</p>
             <p class="mb-1"><strong>Complemento:</strong> ${check.cliente.complemento}</p>
+            <p class="mb-1"><strong>Observação para entrega:</strong> ${check.obs}</p>
         </#if>
     </div>
 

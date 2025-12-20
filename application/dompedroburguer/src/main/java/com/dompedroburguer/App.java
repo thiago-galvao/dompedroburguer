@@ -95,5 +95,8 @@ public class App {
         
         app.post("/pages/cad-pedido", checkoutController.inserir);
 
+        app.get("/pages/relatorio-vendas", relatorioController.get);
+        
+        app.get("/pages/relatorio-vendas/{dataAtual}", relatorioController.puxarRelatorio);
     }
 }

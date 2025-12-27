@@ -37,7 +37,7 @@ VSCode para edição do código.
 
 Para visualizar o sistema funcionando na prática e entender melhor as funcionalidades, clique no ícone do Youtube abaixo:
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=TrowRGCgvTI">
+  <a href="https://www.youtube.com/watch?v=TrowRGCgvTI" target="_blank">
     <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Youtube Logo">
   </a>
 </p>

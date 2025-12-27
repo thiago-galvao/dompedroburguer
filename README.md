@@ -41,6 +41,7 @@ Para visualizar o sistema funcionando na prática e entender melhor as funcional
     <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Youtube Logo">
   </a>
 </p>
+
 ## 🧠 Aprendizados e melhorias
 
 Durante o desenvolvimento deste projeto, pude identificar oportunidades de melhorias desde a modelagem do banco de dados até o desenvovlimento do software, veja alguns desafios e oportunidades que foram identificadas:

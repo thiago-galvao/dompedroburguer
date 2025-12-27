@@ -19,11 +19,13 @@ Bem-vindo ao repositório do Dom Pedro Burger, um sistema para gerenciamento pro
 
 6. Inserção de pedidos: Módulo para cadastrar pedidos para possibilidar a impressão da comanda.
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias e Conceitos Utilizados
 
 Técnicas de engenharia de software para análise de requisitos e prototipação.
 
 Criação e análise de modelo conceitual e relacional do banco de dados.
+
+Design Pattern para modularização e organização do código: MVC, DAO, Repository, Factory.
 
 Java para o back-end (Javalin) combinadas com Freemarker para visualização dos dados através do HTML.
 

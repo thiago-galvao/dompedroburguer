@@ -14,6 +14,8 @@ public class Cliente{
     private Date dataNasc;
     private char sexo;
     private String email;
+    private Double valor;
+
     public Cliente(){
 
     }
@@ -70,6 +72,13 @@ public class Cliente{
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
+    }
+    // Construtor para puxar cliente do relatório
+    public Cliente(String nome, String telefone, String endereco, Double valor){
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.valor = valor;
     }
     public void setId(int id){
         this.id = id;
@@ -136,5 +145,11 @@ public class Cliente{
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public void setValor(double valor){
+        this.valor = valor;
+    }
+    public Double getValor(){
+        return valor;
     }
 }

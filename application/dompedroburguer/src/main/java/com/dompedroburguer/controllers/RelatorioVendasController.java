@@ -1,12 +1,26 @@
 package com.dompedroburguer.controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.dompedroburguer.model.Cliente;
+import com.dompedroburguer.model.repositories.RelatorioRepository;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
 public class RelatorioVendasController {
+
+    private RelatorioRepository repositorio;
+
+    public RelatorioVendasController(RelatorioRepository repositorio){
+        this.repositorio = repositorio;
+    }
+
     public Handler get = (Context ctx) -> {
         ctx.render("/pages/relatorio-vendas.html");
     };
@@ -23,9 +37,16 @@ public class RelatorioVendasController {
         
         Date dataInicio = formato2.parse(dataInicioString);
         Date dataFim = formato2.parse(dataFimString);
-        
-        
-        ctx.render("/pages/relatorio-vendas.html");
+
+        List<Cliente> clientes = new ArrayList<>();
+
+        clientes = repositorio.puxarRelatorioCliente(dataInicio, dataFim);
+
+        Map<String, Object> dados = new HashMap<>();
+
+        dados.put("clientes", clientes);
+
+        ctx.render("/pages/relatorio-vendas.html", dados);
         
     };
 }

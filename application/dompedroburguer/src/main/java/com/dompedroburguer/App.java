@@ -15,11 +15,14 @@ import com.dompedroburguer.model.dao.JDBCCheckoutDAO;
 import com.dompedroburguer.model.dao.JDBCClienteDAO;
 import com.dompedroburguer.model.dao.JDBCFormasPagamentoDAO;
 import com.dompedroburguer.model.dao.JDBCProdutoDAO;
+import com.dompedroburguer.model.dao.JDBCRelatorioDAO;
 import com.dompedroburguer.model.dao.ProdutoDAO;
+import com.dompedroburguer.model.dao.RelatorioDAO;
 import com.dompedroburguer.model.repositories.CheckoutRepository;
 import com.dompedroburguer.model.repositories.ClienteRepository;
 import com.dompedroburguer.model.repositories.FormasPagamentoRepository;
 import com.dompedroburguer.model.repositories.ProdutoRepository;
+import com.dompedroburguer.model.repositories.RelatorioRepository;
 import com.dompedroburguer.utils.JavalinUtils;
 
 public class App {
@@ -48,7 +51,10 @@ public class App {
         CheckoutDAO checkoutDAO = new JDBCCheckoutDAO(FabricaConexoes.getInstance());
         CheckoutRepository repositorioCheckout = new CheckoutRepository(checkoutDAO);
         CheckoutController checkoutController = new CheckoutController(repositorioCheckout, repositorioCliente, repositorioProduto, repositorioTipoPagamento);
-        RelatorioVendasController relatorioController = new RelatorioVendasController();
+        
+        RelatorioDAO relatorioDAO = new JDBCRelatorioDAO(FabricaConexoes.getInstance());
+        RelatorioRepository repositorioRelatorio = new RelatorioRepository(relatorioDAO);
+        RelatorioVendasController relatorioController = new RelatorioVendasController(repositorioRelatorio);
 
         // Mostra página inicial.
         app.get("/index", indexController.get);

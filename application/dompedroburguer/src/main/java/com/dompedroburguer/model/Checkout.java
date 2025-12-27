@@ -19,15 +19,6 @@ public class Checkout {
     public Checkout() {
     }
 
-    // - dataHora (LocalDateTime)
-    // - tipoServico (boolean)
-    // - cliente (Cliente)
-    // - produtos (List<Produto>)
-    // - obs (String)
-    // Forma de pagamento.
-    // valor taotal
-    // valor final
-
     public Checkout(LocalDateTime dataHoraCompra, boolean entregaBalcao, Cliente cliente, String obs, FormasPagamento fPagamento, double valorTotal, double valorFinal) {
         this.dataHoraCompra = dataHoraCompra;
         this.entregaBalcao = entregaBalcao;
@@ -40,6 +31,10 @@ public class Checkout {
     public Checkout(int id, LocalDateTime dataHoraCompra){
         this.id = id;
         this.dataHoraCompra = dataHoraCompra;
+    }
+    // Construtor do relatorio por cliente.
+    public Checkout(double valorFinal){
+        this.valorFinal = valorFinal;
     }
     @Override
     public String toString(){

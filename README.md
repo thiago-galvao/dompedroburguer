@@ -1,21 +1,50 @@
-🍔 Dom Pedro Burger 👑
 
-Uma Aplicação WEB Simples para Gerenciamento de Hamburgueria.
+# 🍔 Dom Pedro Burguer 
 
-Bem-vindo ao repositório do Dom Pedro Burger, um sistema para gerenciamento projetado para otimizar as operações de uma hamburgueria, com funções para registrar pedido e relatório financeiro.✨ 
+#### Uma Aplicação WEB Simples para Gerenciamento de Hamburgueria.
 
-Recursos Principais:
+Bem-vindo ao repositório do Dom Pedro Burger, um sistema para gerenciamento projetado para otimizar as operações de uma hamburgueria, com funções para registrar pedido e relatório de vendas por cliente.
 
-📱 Módulo de Pedidos feitos no balcão ou através de um cardápio online: Interface rápida e intuitiva para registro de pedidos, opções de delivery ou consumo no local, e métodos de pagamento.
+## 🛠️ Recursos Principais
 
-📋 Gestão de Cardápio e Produtos: Cadastro fácil de hambúrgueres, acompanhamentos e bebidas.
+1. Cardápio online: Interface rápida e intuitiva para registro de pedidos, opções de delivery ou consumo no local, e métodos de pagamento.
 
-🚀 Tecnologias UtilizadasEste projeto foi construído com as seguintes tecnologias:
+2. Gestão de Cardápio e Produtos: Cadastro fácil de hambúrgueres, acompanhamentos e bebidas.
+
+3. Gestão de formas de pagamento: Interface limpa e intuitiva para cadastro, edição e exclusão de formas de pagamento.
+
+4. Gestão de clientes: Opções para gerenciamento dos dados dos clientes.
+
+5. Relatório: Filtragem por data para visualização das vendas por cliente.
+
+6. Inserção de pedidos: Módulo para cadastrar pedidos para possibilidar a impressão da comanda.
+
+## 🚀 Tecnologias Utilizadas
 
 Técnicas de engenharia de software para análise de requisitos e prototipação.
 
-Java para o back-end (Javalin).
+Criação e análise de modelo conceitual e relacional do banco de dados.
+
+Java para o back-end (Javalin) combinadas com Freemarker para visualização dos dados através do HTML.
 
 MySQL para o banco de dados.
 
-HTML, CSS, JS combinados com Bootstrap para o front-end
+HTML, CSS, JS combinados com Bootstrap para o front-end.
+
+VSCode para edição do código.
+
+## ⚙️ Como o sistema funciona?
+
+Para visualizar o sistema funcionando na prática e entender melhor as funcionalidades, clique no ícone do Youtube abaixo:
+<p align="center">
+  <a href="LINK_DO_SEU_VIDEO_AQUI">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Youtube Logo">
+  </a>
+</p>
+## 🧠 Aprendizados e melhorias
+
+Durante o desenvolvimento deste projeto, pude identificar oportunidades de melhorias desde a modelagem do banco de dados até o desenvovlimento do software, veja alguns desafios e oportunidades que foram identificadas:
+
+* **Gerenciamento de Estado:** Implementação de lógica para o exibir os dados do pedido como: cliente, produtos e a venda vinculada, para posterior impressão na comanda.
+* **UX para Facilidade Intuitiva ao Interagir com o Sistema:** Design totalmente responsivo e de interface simples focado na agilidade que um atendente precisa para registrar um pedido.
+* **Entidades Coerentes com a Proposta do Projeto:** Ao desenvolver pude notar que algumas entidades do banco de dados poderiam serem melhoradas para se tornar mais coerentes com as classes em Java.
